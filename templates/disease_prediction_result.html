@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center bg-primary text-white">
+                    <h3>Health Diagnosis Results</h3>
+                </div>
+
+                <div class="card-body text-center">
+                    <h4 class="text-danger">You are likely to suffer from:</h4>
+
+                    <h2 class="font-weight-bold text-warning">{{ result.0 }}</h2>
+
+                    {% if result|length > 1 %}
+                        <h5 class="mt-4 text-muted">Or like:</h5>
+                        <ul class="list-unstyled">
+                            {% for disease in result|slice:"1:" %}
+                                <li class="d-inline">{{ disease }}{% if not forloop.last %}, {% endif %}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <h5 class="mt-4 text-primary">Symptoms You Provided:</h5>
+                    <ul class="list-unstyled">
+                        {% for symptom in selected_symptoms %}
+                            <li class="d-inline">{{ symptom }}{% if not forloop.last %}, {% endif %}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="card-footer text-center bg-light">
+                    <p>This prediction is based on the symptoms you provided. Please consult a healthcare professional for an accurate diagnosis.</p>
+                    {% if user.is_authenticated %}
+                        <a href="/book-doctor/" class="btn btn-primary">Click here to book a doctor</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

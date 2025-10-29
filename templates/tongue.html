@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="container text-center my-5">
+    <h1 class="mb-4">Diagnose Me</h1>
+    <h3 class="text-primary">Tongue Image Diagnosis</h3>
+    <p class="text-secondary">Upload Tongue Image</p>
+
+    <form method="POST" enctype="multipart/form-data" action="/disease-predictor-by-image/">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="tongueImageInput">
+                <img src="{% static 'upload_icon.jpg' %}" alt="Upload Icon" style="width: 100px; cursor: pointer;">
+            </label>
+            <input type="file" id="tongueImageInput" name="tongue_image" accept="image/*" style="display: none;" required>
+        </div>
+
+        <div class="d-flex justify-content-center gap-4">
+            <button type="submit" name="action" value="upload" class="btn btn-success px-4">Upload and Diagnose Tongue Image</button>
+        </div>
+    </form>
+
+
+    {% if file_url %}
+        <div class="mt-4">
+            <p><strong>Uploaded Image:</strong></p>
+            <img src="{{ MEDIA_URL }}{{ file_url }}" alt="Uploaded Image" class="img-fluid" style="max-width: 300px;">
+        </div>
+    {% endif %}
+
+    {% if result %}
+        <div class="mt-4">
+            <p><strong>Diagnosis:</strong> {{ result }}</p>
+        </div>
+    {% elif message %}
+        <div class="mt-4">
+            <p class="text-success">{{ message }}</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

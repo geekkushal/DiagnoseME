@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} We will predict {% endblock %}
+{% block content %}
+<div style="text-align: center; margin-top: 20px;">
+    <a href="/disease_predictor_by_symptoms/" 
+       style="display: inline-block; background-color: #007bff; color: white; padding: 15px 25px; 
+              text-decoration: none; font-size: 16px; border-radius: 8px; margin: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+       Disease Predictor by Symptoms
+    </a>
+    <a href="/disease-predictor-by-image/" 
+       style="display: inline-block; background-color: #28a745; color: white; padding: 15px 25px; 
+              text-decoration: none; font-size: 16px; border-radius: 8px; margin: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+       Disease Predictor by Image Upload
+    </a>
+</div>
+<br>
+<div style = "text-align: center; margin: 20 px; font-size: large;">
+    <ul style="list-style-type: none;">
+        <li> <b> Disease predictor by symptoms : </b> It predicts diseases based on the symptoms you provide. It works on Gaussian Naive Bayes , KNN , SVM , Random forest classifier with hypertuning.</li>
+        <li> <b> Disease predictor by image : </b> It predicts health of tongue on the basis of the image you provide. </li>
+    </ul>
+</div>
+{% endblock %}

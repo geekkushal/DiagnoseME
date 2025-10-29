@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Predict Disease by Symptoms
+{% endblock title %}
+
+{% block content %}
+<!-- Ensure jQuery is included -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<div class="container mt-3">
+  <h3 class="text-center mb-4">Select Symptoms</h3>
+
+  <!-- Form for submitting symptoms -->
+  <form id="symptomForm" method="POST" action="/disease_predictor_by_symptoms/">
+    {% csrf_token %}
+    
+    <!-- Search bar -->
+    <div class="form-group">
+      <input type="text" class="form-control" id="searchInput" placeholder="Search symptoms...">
+    </div>
+
+    <!-- Symptoms list with checkboxes -->
+    <div class="symptom-list d-flex flex-wrap">
+      {% for symptom in symptoms %}
+        <div class="form-check mr-3">
+          <input class="form-check-input symptom-checkbox" type="checkbox" value="{{ symptom }}" id="symptom{{ forloop.counter }}">
+          <label class="form-check-label" for="symptom{{ forloop.counter }}">{{ symptom }}</label>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <!-- Hidden input to store selected symptoms -->
+    <input type="hidden" id="selectedSymptomsInput" name="selected_symptoms">
+
+    <!-- Selected symptoms section -->
+    <div class="mt-4">
+      <h5>Selected Symptoms:</h5>
+      <ul id="selectedSymptoms" class="list-group">
+        <!-- Selected symptoms will be displayed here -->
+      </ul>
+    </div>
+
+    <!-- Submit button -->
+    <div class="mt-4">
+      <button type="submit" class="btn btn-primary">DiagnoseME</button>
+    </div>
+  </form>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const symptomCheckboxes = document.querySelectorAll(".symptom-checkbox");
+  const selectedSymptomsList = document.getElementById("selectedSymptoms");
+  const selectedSymptomsInput = document.getElementById("selectedSymptomsInput");
+  const searchInput = document.getElementById("searchInput"); // Search input updated to 'searchInput'
+
+  function updateSelectedSymptoms() {
+    const selectedSymptoms = [];
+    selectedSymptomsList.innerHTML = ""; // Clear the list
+
+    symptomCheckboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        selectedSymptoms.push(checkbox.value);
+
+        // Add to displayed selected symptoms list
+        const li = document.createElement("li");
+        li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+        li.textContent = checkbox.value;
+
+        // Add remove button
+        const removeBtn = document.createElement("button");
+        removeBtn.classList.add("btn", "btn-sm", "btn-danger");
+        removeBtn.textContent = "Remove";
+        removeBtn.onclick = function () {
+          checkbox.checked = false; // Uncheck the checkbox
+          updateSelectedSymptoms(); // Update the list
+        };
+
+        li.appendChild(removeBtn);
+        selectedSymptomsList.appendChild(li);
+      }
+    });
+
+    // Store as a JSON string in the hidden input
+    selectedSymptomsInput.value = JSON.stringify(selectedSymptoms);
+  }
+
+  symptomCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", updateSelectedSymptoms);
+  });
+
+  // Search functionality
+  searchInput.addEventListener("input", function () {
+    const query = searchInput.value.toLowerCase();
+
+    symptomCheckboxes.forEach((checkbox) => {
+      const label = checkbox.nextElementSibling; // Assuming a label follows the checkbox
+      const symptomName = label ? label.textContent.toLowerCase() : "";
+
+      // Show or hide based on the query
+      if (symptomName.includes(query)) {
+        label.parentElement.style.display = ""; // Show parent element
+      } else {
+        label.parentElement.style.display = "none"; // Hide parent element
+      }
+    });
+  });
+});
+
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    const symptomCheckboxes = document.querySelectorAll(".symptom-checkbox");
+    const selectedSymptomsList = document.getElementById("selectedSymptoms");
+    const selectedSymptomsInput = document.getElementById("selectedSymptomsInput");
+
+    function updateSelectedSymptoms() {
+      const selectedSymptoms = [];
+      selectedSymptomsList.innerHTML = ""; // Clear the list
+
+      symptomCheckboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+          selectedSymptoms.push(checkbox.value);
+
+          // Add to displayed selected symptoms list
+          const li = document.createElement("li");
+          li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+          li.textContent = checkbox.value;
+
+          // Add remove button
+          const removeBtn = document.createElement("button");
+          removeBtn.classList.add("btn", "btn-sm", "btn-danger");
+          removeBtn.textContent = "Remove";
+          removeBtn.onclick = function () {
+            checkbox.checked = false; // Uncheck the checkbox
+            updateSelectedSymptoms(); // Update the list
+          };
+
+          li.appendChild(removeBtn);
+          selectedSymptomsList.appendChild(li);
+        }
+      });
+
+      // Store as a JSON string in the hidden input
+      selectedSymptomsInput.value = JSON.stringify(selectedSymptoms);
+    }
+
+    symptomCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", updateSelectedSymptoms);
+    });
+  });
+  
+</script>
+
+{% endblock %}

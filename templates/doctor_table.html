@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Doctor Details{% endblock %}
+
+{% block content %}
+<a href = "https://www.kailashhealthcare.com/Specialities/physician" target="_blank"> Data is fetched from here using beautiful soup and stored in mongoDB using pymongo and converted to dataframe using pandas and sent to frontend !</a>
+<div class="container">
+    <h1 class="text-center my-4">Doctor Details</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Area of Expertise</th>
+                <th>Qualification</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctor_data %}
+            <tr>
+                <td>{{ doctor.name }}</td>
+                <td>{{ doctor.designation }}</td>
+                <td>{{ doctor.area_of_expertise }}</td>
+                <td>{{ doctor.qualification }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

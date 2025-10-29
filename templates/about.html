@@ -1,0 +1,161 @@
+<!<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthMate</title>
+    <style>
+        
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+header {
+  background: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header ul {
+  list-style: none;
+  padding: 0;
+}
+
+header ul li {
+  display: inline;
+  margin: 0 10px;
+}
+
+header ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.about, .features {
+  padding: 20px;
+  text-align: center;
+}
+
+.features {
+  background: #f9f9f9;
+}
+
+.feature {
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f0f0f0;
+}
+
+header {
+    background: linear-gradient(to right, #4CAF50, #3F51B5);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* ... other styles ... */
+
+.feature {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+}
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+// Assuming you have a function to fetch the accuracy score
+function fetchAccuracyScore() {
+    // Replace this with your actual API call or data fetching logic
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(98); // Replace with the fetched accuracy score
+        }, 1000);
+    });
+}
+    </style>
+</head>
+<body>
+    <script>
+        // Update the accuracy score on page load
+window.onload = async () => {
+    const accuracyScore = await fetchAccuracyScore();
+    document.getElementById("accuracy-score").textContent = accuracyScore + "%";
+};
+    </script>
+    <header>
+        <nav>
+            <h1>DiagnoseME</h1>
+            <ul>
+                <li><a href="http://127.0.0.1:8000/">Home</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="about">
+        <h2>About Us</h2>
+        <p>Welcome to DiagnoseME! Your one-stop solution for healthcare management. We aim to simplify the process of diagnosing and connecting with doctors using modern technology.</p>
+    </section>
+
+    <section class="features">
+        <h2>Our Features</h2>
+        <div class="feature">
+            <h3>Log In & Log Out</h3>
+            <p>Securely log in to manage your medical history and preferences.</p>
+        </div>
+        <div class="feature">
+            <h3>Disease Predictor</h3>
+            <p>Our advanced AI-based disease predictor helps you understand potential health risks. 
+                <br>Accuracy Score: <span id="accuracy-score">95%</span></p> </div>
+        <div class="feature">
+            <h3>Nearby Doctors</h3>
+            <p>Easily find and book appointments with doctors in your area.</p>
+        </div>
+        <div class="feature">
+            <h3>Book a Doctor</h3>
+            <p>Quickly book appointments online for hassle-free consultations.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 HealthMate. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+

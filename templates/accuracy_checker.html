@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Model Evaluation{% endblock %}
+
+{% block content %}
+<!--
+<div>
+    {% for model, metrics in model_metrics.items %}
+    <p><strong>{{ model }}:</strong> {{ metrics.accuracy }}</p>
+    <p>Raw Data (Debug): {{ metrics }}</p>
+    {% endfor %}
+</div>
+-->
+
+<div class="container my-4">
+    <h1 class="text-center">Model Evaluation</h1>
+    <hr>
+    <h3>Accuracy Scores</h3>
+    <div>
+        {% for model, metrics in model_metrics.items %}
+        <p><strong>{{ model }}:</strong> {{ metrics.accuracy|floatformat:4 }}</p>
+        {% endfor %}
+    </div>
+
+
+    <h3>Confusion Matrices</h3>
+    {% for model, metrics in model_metrics.items %}
+    <h4>{{ model }}</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            {% for row in metrics.confusion_matrix %}
+                <tr>
+                    {% for value in row %}
+                        <td style="word-wrap: break-word; white-space: normal;">{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endfor %}
+
+    <h3>Classification Reports</h3>
+    {% for model, metrics in model_metrics.items %}
+    <h4>{{ model }}</h4>
+    <pre>{{ metrics.classification_report }}</pre>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Search for Precautions by Disease</h2>
+
+    <!-- Searchable Dropdown -->
+    <div class="form-group">
+        <label for="disease-select">Select a Disease:</label>
+        <select id="disease-select" class="form-control">
+            <option value="">-- Select a Disease --</option>
+            {% for disease in diseases %}
+            <option value="{{ disease.id }}">{{ disease.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Results Section -->
+    <div id="medicine-results" class="mt-4">
+        <h4 class="text-primary">Precautions:</h4>
+        <ul id="medicine-list" class="list-group"></ul>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const diseaseSelect = document.getElementById("disease-select");
+        const medicineList = document.getElementById("medicine-list");
+
+        diseaseSelect.addEventListener("change", function () {
+            const diseaseId = this.value;
+
+            // Clear previous results
+            medicineList.innerHTML = "";
+
+            if (diseaseId) {
+                // Fetch medicines via AJAX
+                fetch(`/get-medicines/?disease_id=${diseaseId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.medicines.length > 0) {
+                            data.medicines.forEach(medicine => {
+                                const li = document.createElement("li");
+                                li.textContent = medicine;
+                                li.classList.add("list-group-item");
+                                medicineList.appendChild(li);
+                            });
+                        } else {
+                            const li = document.createElement("li");
+                            li.textContent = "No medicines found for this disease.";
+                            li.classList.add("list-group-item", "text-danger");
+                            medicineList.appendChild(li);
+                        }
+                    })
+                    .catch(error => console.error("Error fetching medicines:", error));
+            }
+        });
+    });
+</script>
+{% endblock %}
